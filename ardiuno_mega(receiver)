@@ -1,0 +1,22 @@
+int pin = 13;
+
+void setup() {
+  Serial.begin(9600);    // Initialize USB Serial for debugging
+  Serial1.begin(9600);   // Initialize Serial1 for UART communication
+  pinMode(pin, OUTPUT);  // Set pin 13 as OUTPUT
+}
+
+void loop() {
+  if (Serial1.available() > 0) {     // Check if data is available on Serial1
+    String received = Serial1.readStringUntil('\n');  // Read string until newline
+    received.trim();                 // Remove any leading/trailing whitespace
+
+    if (received == "ON") {
+      digitalWrite(pin, HIGH);       // Turn the LED on
+      Serial.println("LED ON");      // Debug message
+    } else if (received == "OFF") {
+      digitalWrite(pin, LOW);        // Turn the LED off
+      Serial.println("LED OFF");     // Debug message
+    }
+  }
+}
